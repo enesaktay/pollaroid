@@ -2,14 +2,14 @@
 
 {% block body %}
 
-    <section class="hero is-primary is-medium">
+    <section class="hero is-light is-medium is-bold">
         <!-- Hero head: will stick at the top -->
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
                     <div class="navbar-brand">
                         <a class="navbar-item">
-                            <h1 class="has-text-centered is-size-1 has-text-weight-bold">
+                            <h1 class="has-text-centered is-size-1 has-text-weight-bold has-text-grey">
                                 <span class="has-text-grey-darker">Poll</span>aroid
                             </h1>
                         </a>
@@ -25,19 +25,41 @@
                                 Home
                             </a>
                             <a class="navbar-item">
-                                Examples
+                                <span class="icon">
+                                    <i class="fas fa-random"></i>
+                                </span>
+                                Shuffle
                             </a>
                             <a class="navbar-item">
-                                Documentation
+                                <span class="icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </span>
+                                Register
                             </a>
                             <span class="navbar-item">
-              <a class="button is-primary is-inverted">
-                <span class="icon">
-                  <i class="fab fa-github"></i>
-                </span>
-                <span>Download</span>
-              </a>
-            </span>
+                                {#<div class="field">#}
+                                  {#<p class="control has-icons-left">#}
+                                    {#<input class="input is-small" type="email" placeholder="Email">#}
+                                    {#<span class="icon is-small is-left">#}
+                                      {#<i class="fas fa-envelope"></i>#}
+                                    {#</span>#}
+                                  {#</p>#}
+                                {#</div>#}
+                                {#<div class="field">#}
+                                  {#<p class="control has-icons-left">#}
+                                    {#<input class="input is-small" type="password" placeholder="Password">#}
+                                    {#<span class="icon is-small is-left">#}
+                                      {#<i class="fas fa-lock"></i>#}
+                                    {#</span>#}
+                                  {#</p>#}
+                                {#</div>#}
+                              <a class="button is-light is-inverted">
+                                <span class="icon">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </span>
+                                <span>Sign In</span>
+                              </a>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -45,21 +67,21 @@
         </div>
 
         <!-- Hero footer: will stick at the bottom -->
-        <div class="hero-foot">
-            <nav class="tabs">
-                <div class="container">
-                    <ul>
-                        <li class="is-active"><a>Overview</a></li>
-                        <li><a>Modifiers</a></li>
-                        <li><a>Grid</a></li>
-                        <li><a>Elements</a></li>
-                        <li><a>Components</a></li>
-                        <li><a>Layout</a></li>
-                    </ul>
-                </div>
-            </nav>
-        </div>
+        {#<div class="hero-foot">#}
+            {#<nav class="tabs">#}
+                {#<div class="container">#}
+                    {#<ul>#}
+                        {#<li class="is-active"><a>Overview</a></li>#}
+                        {#<li><a>Modifiers</a></li>#}
+                        {#<li><a>Grid</a></li>#}
+                        {#<li><a>Elements</a></li>#}
+                        {#<li><a>Components</a></li>#}
+                        {#<li><a>Layout</a></li>#}
+                    {#</ul>#}
+                {#</div>#}
+            {#</nav>#}
+        {#</div>#}
     </section>
-    
+
 
 {% endblock %}
