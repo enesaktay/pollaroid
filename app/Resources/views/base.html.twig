@@ -1,8 +1,14 @@
-<!DOCTYPE html>
+<!doctype html> <!-- HTML5 -->
 <html>
     <head>
-        <meta charset="UTF-8" />
+        <!-- Set character encoding for the document -->
+        <meta charset="utf-8">
+        <!-- Viewport for responsive web design -->
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <!-- Instruct Internet Explorer to use its latest rendering engine -->
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <!-- Meta Description -->
+        <meta name="description" content="Start a poll within seconds!">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
         <link rel="stylesheet" href="{{ asset('build/main.css') }}"/>
