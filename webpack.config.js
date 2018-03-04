@@ -14,7 +14,11 @@ Encore
         ]
     )
 
-    .createSharedEntry('vendor', ['jquery'])
+    .createSharedEntry('vendor', [
+        'jquery',
+        './app/Resources/public/js/vendor/add-collection-widget.js',
+        './app/Resources/public/js/bulma-slider-custom.js',
+    ])
 
     // will create public/build/app.css
     .addStyleEntry('main', './app/Resources/public/css/main.scss')
