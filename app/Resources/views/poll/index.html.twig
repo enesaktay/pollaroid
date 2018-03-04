@@ -65,23 +65,43 @@
                 </div>
             </nav>
         </div>
-
-        <!-- Hero footer: will stick at the bottom -->
-        {#<div class="hero-foot">#}
-            {#<nav class="tabs">#}
-                {#<div class="container">#}
-                    {#<ul>#}
-                        {#<li class="is-active"><a>Overview</a></li>#}
-                        {#<li><a>Modifiers</a></li>#}
-                        {#<li><a>Grid</a></li>#}
-                        {#<li><a>Elements</a></li>#}
-                        {#<li><a>Components</a></li>#}
-                        {#<li><a>Layout</a></li>#}
-                    {#</ul>#}
-                {#</div>#}
-            {#</nav>#}
-        {#</div>#}
     </section>
 
+    {{ form_start(form) }}
+        {{ form_row(form._token) }}
 
+        {{ form_row(form.question) }}
+        {{ form_label(form.answer) }}
+        {{ form_errors(form.answer) }}
+        <ul id="answer-fields-list"
+            data-prototype="{{ form_widget(form.answer.vars.prototype)|e }}"
+            data-widget-tags="{{ '<li></li>'|e }}">
+            {% for answerField in form.answer %}
+                <li>
+                    {{ form_errors(answerField) }}
+                    {{ form_widget(answerField) }}
+                </li>
+            {% endfor %}
+        </ul>
+
+        {#<a href="#"#}
+           {#class="add-another-collection-widget"#}
+           {#data-list="#answer-fields-list"><i class="fas fa-plus"></i></a>#}
+
+    <a class="button is-info add-another-collection-widget"
+       data-list="#answer-fields-list">
+        <span class="icon is-big">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span>Answer</span>
+    </a>
+
+
+        {{ form_row(form.visibleToPublic) }}
+        {{ form_row(form.isActive) }}
+        {{ form_row(form.expirationDate) }}
+        <output for="form_expirationDate">50</output>
+        {{ form_row(form.save) }}
+
+    {{ form_end(form, {'render_rest': false}) }}
 {% endblock %}
