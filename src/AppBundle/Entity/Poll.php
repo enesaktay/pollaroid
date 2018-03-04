@@ -11,43 +11,48 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Poll
 {
-
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="shortid", length=20)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="CUSTOM")
+     * @ORM\CustomIdGenerator(class="PUGX\Shortid\Doctrine\Generator\ShortidGenerator")
      */
-    private $id;
+    protected $id;
 
     /**
-     * @ORM\Column(name="created_at", type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false)
      */
     protected $createdAt;
 
     /**
-     * @ORM\Column(name="updated_at", type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false)
      */
     protected $updatedAt;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $question;
+    protected $question;
 
     /**
      * @ORM\Column(type="json_array")
      */
-    private $answers;
+    protected $answer;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    protected $isVisible;
+    protected $visibleToPublic;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $isActive;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $expirationDate;
+    protected $expirationDate;
 
     /**
      *
@@ -64,19 +69,11 @@ class Poll
     }
 
     /**
-     * @return integer
+     * @return mixed
      */
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**
@@ -130,33 +127,49 @@ class Poll
     /**
      * @return mixed
      */
-    public function getAnswers()
+    public function getAnswer()
     {
-        return $this->answers;
+        return $this->answer;
     }
 
     /**
-     * @param mixed $answers
+     * @param mixed $answer
      */
-    public function setAnswers($answers)
+    public function setAnswer($answer)
     {
-        $this->answers = $answers;
+        $this->answer = $answer;
     }
 
     /**
      * @return mixed
      */
-    public function getisVisible()
+    public function getVisibleToPublic()
     {
-        return $this->isVisible;
+        return $this->visibleToPublic;
     }
 
     /**
-     * @param mixed $isVisible
+     * @param mixed $visibleToPublic
      */
-    public function setIsVisible($isVisible)
+    public function setVisibleToPublic($visibleToPublic)
     {
-        $this->isVisible = $isVisible;
+        $this->visibleToPublic = $visibleToPublic;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getisActive()
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $isActive
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
     }
 
     /**
@@ -174,6 +187,5 @@ class Poll
     {
         $this->expirationDate = $expirationDate;
     }
-
 
 }
