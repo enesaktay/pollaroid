@@ -74,3 +74,8 @@ doctrine_migrations:
     name: Application Migrations
     organize_migrations: false # Version >= 1.2, possible values are: "BY_YEAR", "BY_YEAR_AND_MONTH", false
     custom_template: ~ # Version >= 1.2, path to your custom migrations template
+
+pugx_shortid_doctrine:
+    global_config:
+        length: 20
+        alphabet: "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-_"
