@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -53,6 +54,17 @@ class Poll
      * @ORM\Column(type="datetime")
      */
     protected $expirationDate;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Vote", mappedBy="poll")
+     */
+    protected $votes;
+
+
+    public function __construct()
+    {
+        $this->votes = new ArrayCollection();
+    }
 
     /**
      *
