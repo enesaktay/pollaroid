@@ -14,77 +14,26 @@
     <link rel="stylesheet" href="{{ asset('build/main.css') }}"/>
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
 </head>
-<body>
+<body class="{% block bodyclass %}{% endblock %}">
 {% block head %}
-    <section class="hero is-light is-medium is-bold">
-        <!-- Hero head: will stick at the top -->
-        <div class="hero-head">
-            <nav class="navbar">
-                <div class="container">
-                    <div class="navbar-brand">
-                        <a class="navbar-item">
-                            <h1 class="has-text-centered is-size-1 has-text-weight-bold has-text-grey">
-                                <span class="has-text-grey-darker">Poll</span>aroid
-                            </h1>
-                        </a>
-                        <span class="navbar-burger burger" data-target="navbarMenuHeroA">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                      </span>
-                    </div>
-                    <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class="navbar-end">
-                            <a class="navbar-item is-active">
-                                Home
-                            </a>
-                            <a class="navbar-item">
-                                <span class="icon">
-                                    <i class="fas fa-random"></i>
-                                </span>
-                                Shuffle
-                            </a>
-                            <a class="navbar-item">
-                                <span class="icon">
-                                    <i class="fas fa-user-plus"></i>
-                                </span>
-                                Register
-                            </a>
-                            <span class="navbar-item">
-                                {#<div class="field">#}
-                                {#<p class="control has-icons-left">#}
-                                {#<input class="input is-small" type="email" placeholder="Email">#}
-                                {#<span class="icon is-small is-left">#}
-                                {#<i class="fas fa-envelope"></i>#}
-                                {#</span>#}
-                                {#</p>#}
-                                {#</div>#}
-                                {#<div class="field">#}
-                                {#<p class="control has-icons-left">#}
-                                {#<input class="input is-small" type="password" placeholder="Password">#}
-                                {#<span class="icon is-small is-left">#}
-                                {#<i class="fas fa-lock"></i>#}
-                                {#</span>#}
-                                {#</p>#}
-                                {#</div>#}
-                                <a class="button is-light is-inverted">
-                                <span class="icon">
-                                    <i class="fas fa-sign-in-alt"></i>
-                                </span>
-                                <span>Sign In</span>
-                              </a>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </section>
+    {{ include('partial/head.html.twig') }}
 {% endblock %}
-{% block body %}{% endblock %}
+<div class="container">
+    {% block body %}{% endblock %}
+
+</div>
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Pollaroid</strong> made with Symfony + Bulma by <a href="https://github.com/enesaktay/">Enes Aktay</a>. The source code is on
+                <a href="https://github.com/enesaktay/pollaroid">Github</a>.
+            </p>
+        </div>
+    </div>
+</footer>
 <script src="{{ asset('build/manifest.js') }}"></script>
 <script src="{{ asset('build/vendor.js') }}"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 <script src="{{ asset('build/app.js') }}"></script>
 {% block javascripts %}{% endblock %}
 </body>

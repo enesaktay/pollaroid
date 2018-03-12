@@ -1,0 +1,27 @@
+<div class="tooltip" id="timeLeft"
+     data-timelefttovote="{{ timeLeftToVote|json_encode }}"
+     data-tooltip="Timeleft to Vote">
+    {#<h2 class="title is-4 is-uppercase">Timeleft to Vote</h2>#}
+    {% if timeLeftToVote[0] != '0' %}
+        <div class="timeleftbox">
+            <div class="timeleftunit">Days</div>
+            <div class="timeleftvalue days">{{ timeLeftToVote[0] }}</div>
+        </div>
+    {% endif %}
+    {% if timeLeftToVote[0] != '0' or timeLeftToVote[1] != '0' %}
+        <div class="timeleftbox">
+            <div class="timeleftunit">Hours</div>
+            <div class="timeleftvalue hours">{{ timeLeftToVote[1] }}</div>
+        </div>
+    {% endif %}
+    {% if timeLeftToVote[0] != '0' or timeLeftToVote[1] != '0' or timeLeftToVote[2] != '0' %}
+        <div class="timeleftbox">
+            <div class="timeleftunit">Minutes</div>
+            <div class="timeleftvalue minutes">{{ timeLeftToVote[2] }}</div>
+        </div>
+    {% endif %}
+    <div class="timeleftbox">
+        <div class="timeleftunit">Seconds</div>
+        <div class="timeleftvalue seconds">{{ timeLeftToVote[3] }}</div>
+    </div>
+</div>

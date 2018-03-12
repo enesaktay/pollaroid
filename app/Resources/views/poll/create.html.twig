@@ -1,0 +1,185 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyclass %}createPage{% endblock %}
+
+{% block body %}
+
+    <section class="hero">
+        <div class="hero-body has-text-centered">
+            <h2 class="title">Create your Poll in two easy steps</h2>
+        </div>
+    </section>
+
+    {#{% include 'partial/tos.html.twig' %}#}
+
+    {{ form_start(form) }}
+    {{ form_row(form._token) }}
+
+    <section class="hero">
+        <div class="hero-body">
+            <div class="steps" id="stepsDemo">
+                <div class="step-item is-active is-success">
+                    <div class="step-marker">
+                <span class="icon">
+                    <i class="fas fa-question"></i>
+                </span>
+                    </div>
+                    <div class="step-details">
+                        <p class="step-title">Question</p>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-marker">
+                <span class="icon">
+                    <i class="fas fa-cogs"></i>
+                </span>
+                    </div>
+                    <div class="step-details">
+                        <p class="step-title">Configure</p>
+                    </div>
+                </div>
+
+                <div class="steps-content">
+                    <div class="columns">
+                        <div class="column">
+                            <div class="is-divider"></div>
+                        </div>
+                    </div>
+                    <div class="step-content is-active" id="answer-step"
+                         data-prototype="<div class='field-label'></div><div class='field-body' id='to-be-deleted-{{ form.answer.vars.prototype.vars.name }}'><div class='field has-addons'><div class='control'><a class='button is-danger is-medium' id='delete-{{ form.answer.vars.prototype.vars.name }}' data-deleteid='#to-be-deleted-{{ form.answer.vars.prototype.vars.name }}'><span class='icon'><i class='fas fa-times'></i></span></a></div><div class='control is-expanded'>{{ form_widget(form.answer.vars.prototype)|e('html_attr') }}</div></div></div>"
+                         data-widget-tags="{{ '<div class=\'field is-horizontal\'></div>'|e }}"
+                         data-initial-append-selector="#initial-append"
+                         data-widget-counter="0">
+                        <div class="field is-horizontal">
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        {{ form_row(form.question) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label has-text-left-tablet has-text-centered-mobile is-5">
+                                <a class="button is-medium is-info add-another-collection-widget is-left"
+                                   data-list="#answer-step" data-initiallist="" data-widget-counter="0">
+                                <span class="icon is-big">
+                                  <i class="fas fa-plus"></i>
+                                </span>
+                                    <span>Answer</span>
+                                </a>
+                            </div>
+                            <div class="field-body">
+                                <div class="field has-addons" id="initial-append"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="step-content">
+                        <div class="field is-horizontal">
+                            <div class="field-label is-normal">
+                                <label class="label">
+                                    {{ form_label(form.expirationDate) }}
+                                    {{ form_errors(form.expirationDate) }}
+                                    {% include 'partial/tooltip.html.twig'
+                                        with {
+                                        'tooltipMultiline': 1,
+                                        'tooltipText': 'Defines how long the the poll will be votable. You can still see the result even after the Poll has been expired.'
+                                    } %}
+                                </label>
+                                <h2 class="subtitle is-3">
+                                    <output for="form_expirationDate"></output>
+                                </h2>
+                            </div>
+                            <div class="field-body">
+                                <div class="field">
+                                    <div class="control">
+                                        {{ form_widget(form.expirationDate) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal">
+                            <div class="field-label">
+                                <label class="label" for="{{ form.allowMultipleAnswers.vars.id }}">
+                                    {{ form_label(form.allowMultipleAnswers) }}
+                                    {{ form_errors(form.allowMultipleAnswers) }}
+                                    {% include 'partial/tooltip.html.twig'
+                                        with {
+                                        'tooltipMultiline': 1,
+                                        'tooltipText': 'Defines if you want to allow multiple answers instead of only one answer for this vote.'
+                                    } %}
+                                </label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field has-text-left">
+                                    {{ form_widget(form.allowMultipleAnswers) }}
+                                    {# Due to CSS limitations this has to be right next to widget or else it is invisible #}
+                                    <label class="label" for="{{ form.allowMultipleAnswers.vars.id }}">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field is-horizontal" id="allowed-answer-count">
+                            <div class="field-label is-normal">
+                                <label class="label">
+                                    {{ form_label(form.allowedAnswerCount) }}
+                                    {{ form_errors(form.allowedAnswerCount) }}
+                                    {% include 'partial/tooltip.html.twig'
+                                        with {
+                                        'tooltipMultiline': 0,
+                                        'tooltipText': 'Defines how many possible answers can be voted for.'
+                                    } %}
+                                </label>
+                            </div>
+                            <div class="field-body">
+                                <div class="field has-addons">
+                                    <div class="control">
+                                        {{ form_widget(form.allowedAnswerCount) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-horizontal">
+                        <div class="field-label">
+                            <label class="label" for="{{ form.acceptedTos.vars.id }}">
+                                {{ form_label(form.acceptedTos) }}
+                                {{ form_errors(form.acceptedTos) }}
+                            </label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field has-text-left">
+                                {{ form_widget(form.acceptedTos) }}
+                                {# Due to CSS limitations this has to be right next to widget or else it is invisible #}
+                                <label class="label" for="{{ form.acceptedTos.vars.id }}">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="steps-actions">
+                        <div class="steps-action" id="back-steps">
+                            <a href="#" data-nav="previous" class="button is-light">
+                    <span class="icon">
+                      <i class="fas fa-chevron-left"></i>
+                    </span>
+                                <span>Previous</span>
+                            </a>
+                        </div>
+                        <div class="steps-action" id="next-steps">
+                            <a href="#" data-nav="next" class="button is-light">
+                                <span>Next</span>
+                                <span class="icon">
+                      <i class="fas fa-chevron-right"></i>
+                    </span>
+                            </a>
+                            {{ form_row(form.save) }}
+                        </div>
+                    </div>
+                </div>
+
+                {#{{ form_row(form.acceptedTos) }}#}
+                {{ form_end(form, {'render_rest': false}) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

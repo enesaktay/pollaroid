@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyclass %}resultPage{% endblock %}
+
+{% block body %}
+
+    <section class="hero">
+        <div class="hero-body has-text-centered" id="resultHeroBody"
+             data-refreshurl="{{ path('viewPollResult', {'pollId' : poll.id}) }}">
+
+            {% include 'partial/navigation.html.twig'
+                with {
+                'timeLeftToVote': timeLeftToVote,
+                'backUrl' : path('viewPoll', {'pollId' : poll.id}) ,
+                'backText' : 'Back to the Poll',
+            } %}
+
+
+            <h2 class="subtitle">Result:</h2>
+            <h1 class="title is-1">{{ poll.question }}</h1>
+            {% if votes is null %}
+                <div class="notification">
+                    <div class="columns is-centered">
+                        <div class="column">
+                            <i class="far fa-thumbs-down fa-5x"></i>
+                            <h2 class="subtitle"><strong>Woops!</strong> Looks like no one voted.</h2>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                {#{% for key, voteCount in votes %}#}
+                    {#<div class="level-item">#}
+                        {#<div>#}
+                            {#<p class="heading">{{ poll.answer[key] }}</p>#}
+                            {#<p class="title">{{ voteCount }}</p>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#{% endfor %}#}
+                <div class="field has-addons has-addons-centered">
+                    <p class="control">
+                        <a class="button is-primary is-outlined tooltip" id="onceRefresh"
+                           data-tooltip="Updates the chart once.">
+                        <span class="icon">
+                          <i class="fas fa-sync"></i>
+                        </span>
+                            <span>Update Chart</span>
+                        </a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary is-outlined is-hidden tooltip" id="stopKeepRefresh"
+                           data-tooltip="Stops updating the chart.">
+                        <span class="icon">
+                          <i class="fas fa-times"></i>
+                        </span>
+                        </a>
+                    </p>
+                    <p class="control">
+                        <a class="button is-primary tooltip" id="keepRefresh"
+                           data-tooltip="Keeps the chart updated.">
+                        <span class="icon">
+                          <i class="fas fa-sync"></i>
+                        </span>
+                            <span>Keep Chart Updated</span>
+                        </a>
+                    </p>
+                </div>
+
+                <canvas id="doughnut-chart"
+                        data-votes="{{ votes|json_encode() }}"
+                        data-answers="{{ poll.answer|json_encode() }}"
+                ></canvas>
+
+            {% endif %}
+
+        </div>
+    </section>
+
+    <div class="columns is-centered">
+        <div class="column is-5">
+            {% include 'partial/copy.html.twig'
+                with {
+                'urlToCopy': absolute_url(path('viewPollResult', {'pollId' : poll.id })),
+                'shareText': 'Share the Result'
+            } %}
+        </div>
+    </div>
+
+{% endblock %}

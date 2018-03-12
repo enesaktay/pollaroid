@@ -1,0 +1,19 @@
+<label class="label">{{ shareText }}</label>
+<div class="field has-addons has-addons-centered">
+    <p class="control has-icons-left is-expanded">
+        <input class="input" type="text" id="urlInput"
+               value="{{ urlToCopy }}" readonly>
+        <span class="icon is-small is-left">
+          <i class="fas fa-share-alt"></i>
+        </span>
+    </p>
+    <p class="control">
+        <div class="is-right tooltip copy-btn" data-tooltip="Copy Link" data-copyselector="#urlInput">
+            <span class="file-label">
+                <span class="file-cta">
+                    <i class="fas fa-copy"></i>
+                </span>
+            </span>
+        </div>
+    </p>
+</div>

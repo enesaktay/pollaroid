@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block bodyclass %}votePage{% endblock %}
+
+{% block body %}
+    <section class="hero">
+        <div class="hero-body has-text-centered">
+            {% include 'partial/navigation.html.twig'
+                with {
+                'timeLeftToVote': timeLeftToVote,
+                'backUrl' : path('create') ,
+                'backText' : 'Back to Create',
+                'forwardUrl' : path('viewPollResult', {'pollId' : poll.id}),
+                'forwardText' : 'View the Results'
+            } %}
+
+            <h2 class="subtitle">Poll:</h2>
+            <h1 class="title is-1">{{ poll.question }}</h1>
+            <div class="has-text-left">
+                {{ form_start(form) }}
+                {% for key, child in form.name.children %}
+                    <div class="field">
+                        {{ form_widget(child) }}
+                        {{ form_label(child) }}
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="field">
+                {{ form_row(form.send) }}
+            </div>
+            {{ form_end(form) }}
+
+        </div>
+    </section>
+
+    <div class="columns is-centered">
+        <div class="column is-5">
+            {% include 'partial/copy.html.twig'
+                with {
+                'urlToCopy': absolute_url(path('viewPoll', {'pollId' : poll.id })),
+                'shareText': 'Share the Poll'
+            } %}
+        </div>
+    </div>
+
+{% endblock %}
