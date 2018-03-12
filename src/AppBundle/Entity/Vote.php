@@ -43,6 +43,16 @@ class Vote
     protected $answerArrayId;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $acceptedTos;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $acceptedPp;
+
+    /**
      *
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -115,17 +125,49 @@ class Vote
     /**
      * @return mixed
      */
-    public function getAnswerJsonId()
+    public function getAnswerArrayId()
     {
-        return $this->answerJsonId;
+        return $this->answerArrayId;
     }
 
     /**
-     * @param mixed $answerJsonId
+     * @param mixed $answerArrayId
      */
-    public function setAnswerJsonId($answerJsonId)
+    public function setAnswerArrayId($answerArrayId)
     {
-        $this->answerJsonId = $answerJsonId;
+        $this->answerArrayId = $answerArrayId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAcceptedTos()
+    {
+        return $this->acceptedTos;
+    }
+
+    /**
+     * @param mixed $acceptedTos
+     */
+    public function setAcceptedTos($acceptedTos)
+    {
+        $this->acceptedTos = $acceptedTos;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAcceptedPp()
+    {
+        return $this->acceptedPp;
+    }
+
+    /**
+     * @param mixed $acceptedPp
+     */
+    public function setAcceptedPp($acceptedPp)
+    {
+        $this->acceptedPp = $acceptedPp;
     }
 
 }

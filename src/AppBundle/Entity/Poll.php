@@ -41,16 +41,6 @@ class Poll
     protected $answer;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $visibleToPublic;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $isActive;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     protected $expirationDate;
@@ -60,7 +50,29 @@ class Poll
      */
     protected $votes;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $allowMultipleAnswers;
 
+    /**
+     * @ORM\Column(type="integer", length=2)
+     */
+    protected $allowedAnswerCount;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    protected $acceptedTos;
+
+//    /**
+//     * @ORM\Column(type="boolean")
+//     */
+//    protected $acceptedPp;
+
+    /**
+     * Poll constructor.
+     */
     public function __construct()
     {
         $this->votes = new ArrayCollection();
@@ -155,38 +167,6 @@ class Poll
     /**
      * @return mixed
      */
-    public function getVisibleToPublic()
-    {
-        return $this->visibleToPublic;
-    }
-
-    /**
-     * @param mixed $visibleToPublic
-     */
-    public function setVisibleToPublic($visibleToPublic)
-    {
-        $this->visibleToPublic = $visibleToPublic;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getisActive()
-    {
-        return $this->isActive;
-    }
-
-    /**
-     * @param mixed $isActive
-     */
-    public function setIsActive($isActive)
-    {
-        $this->isActive = $isActive;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getExpirationDate()
     {
         return $this->expirationDate;
@@ -199,5 +179,86 @@ class Poll
     {
         $this->expirationDate = $expirationDate;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    /**
+     * @param mixed $votes
+     */
+    public function setVotes($votes)
+    {
+        $this->votes = $votes;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllowMultipleAnswers()
+    {
+        return $this->allowMultipleAnswers;
+    }
+
+    /**
+     * @param mixed $allowMultipleAnswers
+     */
+    public function setAllowMultipleAnswers($allowMultipleAnswers)
+    {
+        $this->allowMultipleAnswers = $allowMultipleAnswers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAllowedAnswerCount()
+    {
+        return $this->allowedAnswerCount;
+    }
+
+    /**
+     * @param mixed $allowedAnswerCount
+     */
+    public function setAllowedAnswerCount($allowedAnswerCount)
+    {
+        $this->allowedAnswerCount = $allowedAnswerCount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAcceptedTos()
+    {
+        return $this->acceptedTos;
+    }
+
+    /**
+     * @param mixed $acceptedTos
+     */
+    public function setAcceptedTos($acceptedTos)
+    {
+        $this->acceptedTos = $acceptedTos;
+    }
+
+//    /**
+//     * @return mixed
+//     */
+//    public function getAcceptedPp()
+//    {
+//        return $this->acceptedPp;
+//    }
+//
+//    /**
+//     * @param mixed $acceptedPp
+//     */
+//    public function setAcceptedPp($acceptedPp)
+//    {
+//        $this->acceptedPp = $acceptedPp;
+//    }
+
 
 }
