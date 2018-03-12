@@ -1,0 +1,28 @@
+
+.timeleftbox {
+  display: inline-block;
+  position: relative;
+  margin: 0 .25rem;
+  font-size: 0;
+  line-height: 0;
+  text-transform: uppercase;
+  font-family: sans-serif;
+  text-align: center;
+}
+.timeleftunit {
+  text-align: center;
+  font-size: .875rem;
+  line-height: 1;
+  font-weight: 600;
+  margin: .25rem 0;
+}
+.timeleftvalue {
+  font-size: 3rem;
+  line-height: 3rem;
+  font-weight: 700;
+  text-align: right;
+  padding: .25rem;
+  background-color: #000;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
