@@ -10,20 +10,29 @@ Encore
 
     // will create web/build/app.js
     .addEntry('app', [
+        './app/Resources/public/js/bulma-slider-custom.js',
+        './app/Resources/public/js/page-specific/result.js',
+        './app/Resources/public/js/page-specific/vote.js',
+        './app/Resources/public/js/page-specific/create.js',
         './app/Resources/public/js/custom.js',
         ]
     )
 
     .createSharedEntry('vendor', [
         'jquery',
-        './app/Resources/public/js/vendor/add-collection-widget.js',
-        './app/Resources/public/js/bulma-slider-custom.js',
+        // Fontawesome 5.0 and its icons
+        '@fortawesome/fontawesome',
+        '@fortawesome/fontawesome-free-brands',
+        '@fortawesome/fontawesome-free-regular',
+        '@fortawesome/fontawesome-free-solid',
+        'bulma-extensions/bulma-steps/dist/bulma-steps.js',
+        // './app/Resources/public/js/vendor/add-collection-widget.js',
+        'chart.js/dist/Chart.bundle.js',
     ])
 
     // will create public/build/app.css
     .addStyleEntry('main', './app/Resources/public/css/main.scss')
 
-    // .createSharedEntry('headjs', ['./node_modules/@fortawesome/fontawesome/index.js'])
 
     // allow sass/scss files to be processed
     .enableSassLoader()
