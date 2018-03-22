@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ poll.question }}{% endblock %}
+
 {% block bodyclass %}votePage{% endblock %}
 
 {% block body %}
@@ -29,7 +31,7 @@
                     </h4>
                 {% endif %}
 
-                {% for key, child in form.name.children %}
+                {% for key, child in form.answers.children %}
                     <div class="field">
                         {{ form_widget(child) }}
                         {{ form_label(child) }}
@@ -47,9 +49,9 @@
                 {{ form_errors(form.acceptedTos) }}
             </div>
 
-            <div class="field has-gap-top">
-                {{ form_row(form.recaptcha) }}
-            </div>
+            {#<div class="field has-gap-top">#}
+                {#{{ form_row(form.recaptcha) }}#}
+            {#</div>#}
 
             <div class="field">
                 {{ form_row(form.save) }}
@@ -59,14 +61,12 @@
         </div>
     </section>
 
-    <div class="columns is-centered">
-        <div class="column is-5">
-            {% include 'partial/copy.html.twig'
-                with {
-                'urlToCopy': absolute_url(path('viewPoll', {'pollId' : poll.id })),
-                'shareText': 'Share the Poll'
-            } %}
-        </div>
-    </div>
+
+    {% include 'partial/copy.html.twig'
+        with {
+        'urlToCopy': absolute_url(path('viewPoll', {'pollId' : poll.id })),
+        'shareText': 'Share the Poll'
+    } %}
+
 
 {% endblock %}

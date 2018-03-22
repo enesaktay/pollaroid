@@ -1,7 +1,7 @@
 {% if (backUrl is defined or forwardUrl is defined) and timeLeftToVote is not empty  %}
     <div class="columns" id="navigationBar">
 
-        <div class="column has-text-left">
+        <div class="column has-text-left-tablet has-text-centered-mobile">
             {% if backUrl is defined %}
                 <a class="button is-white is-medium"
                    href="{{ backUrl }}">
@@ -13,12 +13,12 @@
             {% endif %}
         </div>
 
-        <div class="column has-text-centered">
+        <div class="column has-text-centered-tablet has-text-centered-mobile">
             {% include 'partial/timeleft.html.twig'
                 with {'timeLeftToVote': timeLeftToVote} %}
         </div>
 
-        <div class="column has-text-right">
+        <div class="column has-text-right-tablet has-text-centered-mobile">
             {% if forwardUrl is defined %}
                 <a class="button is-info is-medium"
                    href="{{ forwardUrl }}">

@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Result for - {{ poll.question }}{% endblock %}
+
 {% block bodyclass %}resultPage{% endblock %}
 
 {% block body %}
@@ -75,14 +77,10 @@
         </div>
     </section>
 
-    <div class="columns is-centered">
-        <div class="column is-5">
-            {% include 'partial/copy.html.twig'
-                with {
-                'urlToCopy': absolute_url(path('viewPollResult', {'pollId' : poll.id })),
-                'shareText': 'Share the Result'
-            } %}
-        </div>
-    </div>
+    {% include 'partial/copy.html.twig'
+        with {
+        'urlToCopy': absolute_url(path('viewPollResult', {'pollId' : poll.id })),
+        'shareText': 'Share the Result'
+    } %}
 
 {% endblock %}

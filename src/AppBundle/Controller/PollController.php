@@ -148,6 +148,9 @@ class PollController extends Controller
                 '11' => '20160',
             );
 
+            /**
+             * @var $poll Poll
+             */
             $poll = $form->getData();
 
             $nowDateTime = new \DateTime();
@@ -155,13 +158,14 @@ class PollController extends Controller
             $nowDateTime->modify("+{$minutesToAdd} minutes");
 
 
-            /**
-             * @var $poll Poll
-             */
+
             $poll->setExpirationDate($nowDateTime);
             if (!$poll->getAllowedAnswerCount()) {
                 $poll->setAllowedAnswerCount(2);
             }
+
+            $newAns = array_values($poll->getAnswer());
+            $poll->setAnswer($newAns);
 
             // ... perform some action, such as saving the task to the database
             $entityManager = $this->getDoctrine()->getManager();
@@ -209,9 +213,8 @@ class PollController extends Controller
             $allowedAnswerCount = $poll->getAllowedAnswerCount();
         }
 
-        $defaultData = array('message' => 'Type your message here');
-        $form = $this->createFormBuilder($defaultData)
-            ->add('name', ChoiceType::class, array(
+        $form = $this->createFormBuilder()
+            ->add('answers', ChoiceType::class, array(
                 'choices' => array_flip($poll->getAnswer()),
                 'expanded' => true,
                 'label' => false,
@@ -232,20 +235,20 @@ class PollController extends Controller
                 'required' => true,
                 'label' => 'I accept the'
             ))
-            ->add('recaptcha', EWZRecaptchaType::class, array(
-                'attr'        => array(
-                    'options' => array(
-                        'theme' => 'light',
-                        'type'  => 'image',
-                        'size'  => 'normal'
-                    )
-                ),
-                'label' => false,
-                'mapped'      => false,
-                'constraints' => array(
-                    new RecaptchaTrue()
-                )
-            ))
+//            ->add('recaptcha', EWZRecaptchaType::class, array(
+//                'attr'        => array(
+//                    'options' => array(
+//                        'theme' => 'light',
+//                        'type'  => 'image',
+//                        'size'  => 'normal'
+//                    )
+//                ),
+//                'label' => false,
+//                'mapped'      => false,
+//                'constraints' => array(
+//                    new RecaptchaTrue()
+//                )
+//            ))
             ->add('save', SubmitType::class, array(
                 'attr' => array(
                     'class' => 'button is-primary'
@@ -260,7 +263,8 @@ class PollController extends Controller
 
             $vote = $form->getData();
             $i = 1;
-            foreach ($vote['name'] as $singleVote) {
+
+            foreach ($vote['answers'] as $singleVote) {
                 if ($i > $allowedAnswerCount) {
                     break;
                 }
@@ -268,6 +272,7 @@ class PollController extends Controller
                 $tmp = new Vote();
                 $tmp->setPoll($pollId);
                 $tmp->setAnswerArrayId($singleVote);
+                $tmp->setAcceptedTos($vote['acceptedTos']);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($tmp);
                 $entityManager->flush();
