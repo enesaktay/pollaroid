@@ -6,6 +6,7 @@
 @import "~bulma-extensions/bulma-steps/dist/bulma-steps.sass";
 @import "~bulma-extensions/bulma-switch/dist/bulma-switch.sass";
 @import "~bulma-extensions/bulma-checkradio/dist/bulma-checkradio.sass";
+@import "~cookieconsent/build/cookieconsent.min.css";
 
 // Custom
 @import "timeleft";
@@ -17,7 +18,9 @@
 
 .footer {
   padding: 1rem;
-  margin-top: 7rem;
+  @include from($tablet) {
+    margin-top: 7rem;
+  }
 }
 
 .timeleft-loader {
@@ -26,7 +29,6 @@
   margin: 0 auto;
 }
 
-// dirty fix for the added answer field not being on the same height as the add answer button
 [id^=to-be-deleted] {
     position: relative;
     top: -57px;
@@ -44,10 +46,24 @@
   .steps-actions {
     margin-top: 5rem;
   }
+  .is-checkradio[type="checkbox"] + label {
+    margin: .5em .5em .5em 0;
+  }
+  form {
+    #configure-step .field:not(:last-child) {
+      margin-bottom: 3rem;
+    }
+  }
 }
 
 .modal {
   .subtitle {
     margin-top: 3rem;
   }
+  .modal-card-body {
+    padding: 20px 50px 50px 50px;
+  }
+}
+.has-gap-top {
+  margin-top: 4rem;
 }
