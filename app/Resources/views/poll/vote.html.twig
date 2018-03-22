@@ -3,8 +3,11 @@
 {% block bodyclass %}votePage{% endblock %}
 
 {% block body %}
+
+    {% include 'partial/tos.html.twig' %}
+
     <section class="hero">
-        <div class="hero-body has-text-centered">
+        <div class="hero-body">
             {% include 'partial/navigation.html.twig'
                 with {
                 'timeLeftToVote': timeLeftToVote,
@@ -16,8 +19,16 @@
 
             <h2 class="subtitle">Poll:</h2>
             <h1 class="title is-1">{{ poll.question }}</h1>
-            <div class="has-text-left">
+            <div class="answerfield">
+                {% form_theme form 'Form/bulma_layout.html.twig' %}
                 {{ form_start(form) }}
+
+                {% if poll.allowMultipleAnswers %}
+                    <h4 class="subtitle is-5 multiple-answer-subtitle" data-allowed-answer-count="{{ poll.allowedAnswerCount }}">
+                        You can select a maximum of <strong>{{ poll.allowedAnswerCount }}</strong> answers.
+                    </h4>
+                {% endif %}
+
                 {% for key, child in form.name.children %}
                     <div class="field">
                         {{ form_widget(child) }}
@@ -25,8 +36,23 @@
                     </div>
                 {% endfor %}
             </div>
+
+            <div class="field has-gap-top">
+                {{ form_widget(form.acceptedTos) }}
+                {# Due to CSS limitations this has to be right next to widget or else it is invisible #}
+                <label class="label" for="{{ form.acceptedTos.vars.id }}">
+                    {{ form_label(form.acceptedTos) }} <a href="#" class="link is-info"
+                                                          id="showTos">Terms of Service</a>
+                </label>
+                {{ form_errors(form.acceptedTos) }}
+            </div>
+
+            <div class="field has-gap-top">
+                {{ form_row(form.recaptcha) }}
+            </div>
+
             <div class="field">
-                {{ form_row(form.send) }}
+                {{ form_row(form.save) }}
             </div>
             {{ form_end(form) }}
 

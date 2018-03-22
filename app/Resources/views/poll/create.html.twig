@@ -10,7 +10,9 @@
         </div>
     </section>
 
-    {#{% include 'partial/tos.html.twig' %}#}
+    {% include 'partial/tos.html.twig' %}
+
+    {% form_theme form 'Form/bulma_layout.html.twig' %}
 
     {{ form_start(form) }}
     {{ form_row(form._token) }}
@@ -25,7 +27,7 @@
                 </span>
                     </div>
                     <div class="step-details">
-                        <p class="step-title">Question</p>
+                        <p class="step-title">QA</p>
                     </div>
                 </div>
                 <div class="step-item">
@@ -45,7 +47,7 @@
                             <div class="is-divider"></div>
                         </div>
                     </div>
-                    <div class="step-content is-active" id="answer-step"
+                    <div class="step-content is-active" id="question-step"
                          data-prototype="<div class='field-label'></div><div class='field-body' id='to-be-deleted-{{ form.answer.vars.prototype.vars.name }}'><div class='field has-addons'><div class='control'><a class='button is-danger is-medium' id='delete-{{ form.answer.vars.prototype.vars.name }}' data-deleteid='#to-be-deleted-{{ form.answer.vars.prototype.vars.name }}'><span class='icon'><i class='fas fa-times'></i></span></a></div><div class='control is-expanded'>{{ form_widget(form.answer.vars.prototype)|e('html_attr') }}</div></div></div>"
                          data-widget-tags="{{ '<div class=\'field is-horizontal\'></div>'|e }}"
                          data-initial-append-selector="#initial-append"
@@ -53,8 +55,12 @@
                         <div class="field is-horizontal">
                             <div class="field-body">
                                 <div class="field">
-                                    <div class="control">
-                                        {{ form_row(form.question) }}
+                                    <div class="control has-icons-left">
+                                        {{ form_widget(form.question) }}
+                                        <span class="icon is-small is-left">
+                                          <i class="far fa-question-circle"></i>
+                                        </span>
+                                        {{ form_errors(form.question) }}
                                     </div>
                                 </div>
                             </div>
@@ -62,19 +68,39 @@
                         <div class="field is-horizontal">
                             <div class="field-label has-text-left-tablet has-text-centered-mobile is-5">
                                 <a class="button is-medium is-info add-another-collection-widget is-left"
-                                   data-list="#answer-step" data-initiallist="" data-widget-counter="0">
-                                <span class="icon is-big">
-                                  <i class="fas fa-plus"></i>
-                                </span>
+                                   data-list="#question-step" data-initiallist="" data-widget-counter="0">
+                                    <span class="icon is-big">
+                                      <i class="fas fa-plus"></i>
+                                    </span>
                                     <span>Answer</span>
                                 </a>
+                                {{ form_errors(form) }}
                             </div>
                             <div class="field-body">
                                 <div class="field has-addons" id="initial-append"></div>
                             </div>
                         </div>
+
+
+                        {% for i, answer in form.answer %}
+                            <div class='field is-horizontal'>
+                                <div class='field-label'></div>
+                                <div class='field-body' id='to-be-deleted-{{ answer.vars.name }}'>
+                                    <div class='field has-addons'>
+                                        <div class='control'>
+                                            <a class='button is-danger is-medium' id='delete-{{ answer.vars.name }}' data-deleteid='#to-be-deleted-{{ answer.vars.name }}'>
+                                                <span class='icon'><i class='fas fa-times'></i></span>
+                                            </a>
+                                        </div>
+                                        <div class='control is-expanded'>
+                                            {{ form_widget(answer)|replace({'__number__' : loop.index})|raw }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
-                    <div class="step-content">
+                    <div class="step-content" id="configure-step">
                         <div class="field is-horizontal">
                             <div class="field-label is-normal">
                                 <label class="label">
@@ -86,16 +112,12 @@
                                         'tooltipText': 'Defines how long the the poll will be votable. You can still see the result even after the Poll has been expired.'
                                     } %}
                                 </label>
-                                <h2 class="subtitle is-3">
+                                <h2 class="subtitle is-3 has-text-grey">
                                     <output for="form_expirationDate"></output>
                                 </h2>
                             </div>
                             <div class="field-body">
-                                <div class="field">
-                                    <div class="control">
-                                        {{ form_widget(form.expirationDate) }}
-                                    </div>
-                                </div>
+                                {{ form_widget(form.expirationDate) }}
                             </div>
                         </div>
                         <div class="field is-horizontal">
@@ -139,23 +161,32 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="field is-horizontal">
-                        <div class="field-label">
-                            <label class="label" for="{{ form.acceptedTos.vars.id }}">
-                                {{ form_label(form.acceptedTos) }}
-                                {{ form_errors(form.acceptedTos) }}
-                            </label>
+                        <div class="field is-horizontal">
+                            <div class="field-label">
+                            </div>
+                            <div class="field-body">
+                                <div class="field has-text-left">
+                                    {{ form_widget(form.acceptedTos) }}
+                                    {# Due to CSS limitations this has to be right next to widget or else it is invisible #}
+                                    <label class="label" for="{{ form.acceptedTos.vars.id }}">
+                                        {{ form_label(form.acceptedTos) }} <a href="#" class="link is-info"
+                                                                              id="showTos">Terms of Service</a>
+                                    </label>
+                                    {{ form_errors(form.acceptedTos) }}
+                                </div>
+                            </div>
                         </div>
-                        <div class="field-body">
-                            <div class="field has-text-left">
-                                {{ form_widget(form.acceptedTos) }}
-                                {# Due to CSS limitations this has to be right next to widget or else it is invisible #}
-                                <label class="label" for="{{ form.acceptedTos.vars.id }}">
-                                </label>
+                        <div class="field is-horizontal">
+                            <div class="field-label">
+                            </div>
+                            <div class="field-body">
+                                <div class="field has-text-left">
+                                    {{ form_row(form.recaptcha) }}
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <div class="steps-actions">
                         <div class="steps-action" id="back-steps">
                             <a href="#" data-nav="previous" class="button is-light">
@@ -177,7 +208,6 @@
                     </div>
                 </div>
 
-                {#{{ form_row(form.acceptedTos) }}#}
                 {{ form_end(form, {'render_rest': false}) }}
             </div>
         </div>
