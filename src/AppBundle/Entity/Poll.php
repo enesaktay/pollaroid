@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -32,11 +33,13 @@ class Poll
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Assert\NotBlank()
      */
     protected $question;
 
     /**
      * @ORM\Column(type="json_array")
+     * @Assert\NotBlank()
      */
     protected $answer;
 
@@ -57,18 +60,16 @@ class Poll
 
     /**
      * @ORM\Column(type="integer", length=2)
+     * @Assert\GreaterThanOrEqual(2)
+     * @Assert\LessThanOrEqual(20)
      */
     protected $allowedAnswerCount;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\IsTrue()
      */
     protected $acceptedTos;
-
-//    /**
-//     * @ORM\Column(type="boolean")
-//     */
-//    protected $acceptedPp;
 
     /**
      * Poll constructor.
@@ -243,22 +244,5 @@ class Poll
     {
         $this->acceptedTos = $acceptedTos;
     }
-
-//    /**
-//     * @return mixed
-//     */
-//    public function getAcceptedPp()
-//    {
-//        return $this->acceptedPp;
-//    }
-//
-//    /**
-//     * @param mixed $acceptedPp
-//     */
-//    public function setAcceptedPp($acceptedPp)
-//    {
-//        $this->acceptedPp = $acceptedPp;
-//    }
-
 
 }

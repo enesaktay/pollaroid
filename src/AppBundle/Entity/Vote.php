@@ -48,11 +48,6 @@ class Vote
     protected $acceptedTos;
 
     /**
-     * @ORM\Column(type="boolean")
-     */
-    protected $acceptedPp;
-
-    /**
      *
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -152,22 +147,6 @@ class Vote
     public function setAcceptedTos($acceptedTos)
     {
         $this->acceptedTos = $acceptedTos;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAcceptedPp()
-    {
-        return $this->acceptedPp;
-    }
-
-    /**
-     * @param mixed $acceptedPp
-     */
-    public function setAcceptedPp($acceptedPp)
-    {
-        $this->acceptedPp = $acceptedPp;
     }
 
 }
