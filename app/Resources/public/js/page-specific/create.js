@@ -7,7 +7,8 @@ $(function() {
             e.preventDefault();
             var list = $($(this).attr('data-list'));
             // Try to find the counter of the list
-            var counter = list.attr('data-widget-counter');
+            // var counter = list.attr('data-widget-counter');
+            var counter = list.children().length;
             // If the counter does not exist, use the length of the list
             // if (!counter) { counter = list.children().length; }
 
@@ -30,41 +31,27 @@ $(function() {
             var newElem = $(list.attr('data-widget-tags')).html(newWidget);
             newElem.appendTo(list);
 
-            setDisabledSubmit();
+            // setDisabledSubmit();
 
             // create a new variable for the deletebutton
             var deleteButtonId = ('#delete-'+(counter-1));
             // add a listener to the deletebutton
-            $(deleteButtonId).click(function (e) {
-                e.preventDefault();
-                var deleteId = $(this).attr('data-deleteid');
-                $(deleteId).parent().remove();
-                // $(this).remove();
-                var formAnswers = $( "input[id^='form_answer_']" );
-                formAnswers.each(function(i) {
-                    $(this).attr('placeholder', 'Answer ' + (parseInt(i)+1));
-                });
-                if (!formAnswers.length) {
-                    $('.add-another-collection-widget').click();
-                }
-                setDisabledSubmit();
-            });
+            addDeleteListener($(deleteButtonId));
 
         });
 
 
-        $('.triggers-visibility').on('click', function(){
+        $('.triggers-visibility').on('click', function() {
             var triggerSelector = $(this).attr('data-trigger-selector');
             if ( $(this).is(':checked') ) {
-                // console.log('checked');
                 $(triggerSelector).removeClass('is-hidden');
             } else {
-                // console.log('not checked');
                 $(triggerSelector).addClass('is-hidden');
             }
         });
 
-        $('#next-steps a.button').on('click touchstart', function() {
+        $('#next-steps a.button').on('click touchstart', function(e) {
+            // e.preventDefault();
             $('#next-steps a.button').addClass('is-hidden');
             $('#next-steps button').removeClass('is-hidden');
         });
@@ -74,40 +61,61 @@ $(function() {
             $('#next-steps button').addClass('is-hidden');
         });
 
-        function areAllInputsFilled() {
-            var inputs = $('form').find("input[type=text]");
-            var full = inputs.filter(function() {
-                return this.value !== "";
+        function addDeleteListener(x) {
+            $(x).click(function(e) {
+                e.preventDefault();
+                var deleteId = $(x).attr('data-deleteid');
+                $(deleteId).parent().remove();
+                var formAnswers = $( "input[id^='form_answer_']" );
+                formAnswers.each(function(i) {
+                    $(this).attr('placeholder', 'Answer ' + (parseInt(i)+1));
+                });
+                if (!formAnswers.length) {
+                    $('.add-another-collection-widget').click();
+                }
             });
-            console.log(full.length);
-            if(full.length >= 2) {
-                return true;
-            }
-            return false;
-        }
-
-        function setDisabledSubmit() {
-            setInputListener();
-            var disableButton = true;
-            areAllInputsFilled()?disableButton=false:disableButton=true;
-            $('form button[type=submit]').prop('disabled', disableButton);
         }
 
         function init() {
-            $('.add-another-collection-widget').click();
+            if ($( "input[id^='form_answer_']" ).length < 1) {
+                $('.add-another-collection-widget').click();
+            }
             $('#next-steps button').addClass('is-hidden');
-            $('#allowed-answer-count').addClass('is-hidden');
-            setDisabledSubmit();
+            if ( !$('#form_allowMultipleAnswers').is(':checked') ) {
+                $('#allowed-answer-count').addClass('is-hidden');
+            }
+
+            $( "a[id^='delete-']" ).each(function(e) {
+                addDeleteListener(this);
+            });
+
             return true;
         }
         init();
 
-        function setInputListener() {
-            $('input[type=text]').off('input');
-            $('input[type=text]').on('input', function() {
-                setDisabledSubmit()
-            });
-        }
+
+        // $('#question-form button[type=submit]').click(function() {
+        //     if ( $('#form_question').val().replace(/^\s+|\s+$/g, "").length === 0) {
+        //         $('#form_question').addClass('is-danger');
+        //     }
+        //
+        //     var answerInputs = $( "input[id^='form_answer_']" );
+        //     var emptyAnswers = answerInputs.filter(function() {
+        //         return this.value === "";
+        //     });
+        //
+        //     if ((answerInputs.length - emptyAnswers.length) < 1) {
+        //         emptyAnswers.each(function(i) {
+        //             $(this).addClass('is-danger');
+        //         });
+        //     } else {
+        //         emptyAnswers.each(function(i) {
+        //             $(this).removeClass('is-danger');
+        //         });
+        //     }
+        //
+        //     $('#back-steps .button').click();
+        // });
 
     }
 });

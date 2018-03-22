@@ -58,7 +58,37 @@ $(function() {
                 $('#timeLeft .seconds').html(timer.getTimeValues().seconds);
             });
         }
+
+
     }
 
 
+    $('#showTos').click(function(e) {
+        e.preventDefault();
+        $('.modal').addClass('is-active');
+    });
+
+    $('.modal button.delete, .modal-background').click(function(e) {
+        $('.modal').removeClass('is-active');
+    });
+
+    $('.modal .modal-card-foot button').click(function(e) {
+        $('.modal button.delete').click();
+        if (!$('#form_acceptedTos').is( ":checked" )) {
+            $('#form_acceptedTos').click();
+        }
+    });
+
 });
+
+window.addEventListener("load", function(){
+    window.cookieconsent.initialise({
+        "palette": {
+            "popup": {
+                "background": "#000"
+            },
+            "button": {
+                "background": "#f1d600"
+            }
+        }
+    })});
