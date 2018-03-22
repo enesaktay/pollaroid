@@ -26,8 +26,8 @@ Encore
         '@fortawesome/fontawesome-free-regular',
         '@fortawesome/fontawesome-free-solid',
         'bulma-extensions/bulma-steps/dist/bulma-steps.js',
-        // './app/Resources/public/js/vendor/add-collection-widget.js',
         'chart.js/dist/Chart.bundle.js',
+        'cookieconsent/build/cookieconsent.min.js',
     ])
 
     // will create public/build/app.css
