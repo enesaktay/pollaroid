@@ -31,6 +31,8 @@ framework:
         json_manifest_path: '%kernel.project_dir%/web/build/manifest.json'
     php_errors:
         log: true
+    templating:
+        engines: ['twig']
 
 # Twig Configuration
 twig:
@@ -79,3 +81,7 @@ pugx_shortid_doctrine:
     global_config:
         length: 20
         alphabet: "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.-_"
+
+ewz_recaptcha:
+    public_key:  6Ld0B0sUAAAAAFBILY1Y_ScrjCvCl0ipw9vMbEOz
+    private_key: 6Ld0B0sUAAAAAHzDaI2yYFD66WGa-sv1sD-vkWlN
