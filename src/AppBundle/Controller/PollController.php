@@ -18,6 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
+use EWZ\Bundle\RecaptchaBundle\Form\Type\EWZRecaptchaType;
+use EWZ\Bundle\RecaptchaBundle\Validator\Constraints\IsTrue as RecaptchaTrue;
 
 class PollController extends Controller
 {
@@ -44,7 +46,10 @@ class PollController extends Controller
 
         $poll = new Poll();
 
-        $form = $this->createFormBuilder($poll)
+        $form = $this->createFormBuilder($poll, ['attr' => [
+            'id' => 'question-form',
+            'novalidate' => null
+        ]])
             ->add("question", TextType::class, array(
                 'attr' => [
                     'class' => 'input is-large',
@@ -63,7 +68,9 @@ class PollController extends Controller
                 'attr' => array(
                     'class' => 'input',
                     'min' => '2',
-                    'max' => '99'
+                    'max' => '20',
+                    'empty_data' => '2',
+                    'value' => '2'
                 ),
                 'required' => false
             ))
@@ -89,21 +96,35 @@ class PollController extends Controller
                 'entry_options' => array(
                     'attr' => array(
                         'class' => 'input is-medium',
-                        'placeholder' => 'Answer __number__'
+                        'placeholder' => 'Answer __number__',
                     ),
                 ),
-                'required' => true
             ))
             ->add("acceptedTos", CheckboxType::class, array(
                 'attr' => array(
-                    'class' => 'is-checkradio is-info'
+                    'class' => 'is-checkradio is-info',
                 ),
-                'required' => true
+                'required' => true,
+                'label' => 'I accept the'
+            ))
+            ->add('recaptcha', EWZRecaptchaType::class, array(
+                'attr'        => array(
+                    'options' => array(
+                        'theme' => 'light',
+                        'type'  => 'image',
+                        'size'  => 'normal'
+                    )
+                ),
+                'label' => false,
+                'mapped'      => false,
+                'constraints' => array(
+                    new RecaptchaTrue()
+                )
             ))
             ->add("save", SubmitType::class, array(
                 'label' => 'Create Poll',
                 'attr' => array(
-                    'class' => 'button is-primary'
+                    'class' => 'button is-primary',
                 )
             ))
             ->getForm();
@@ -138,13 +159,8 @@ class PollController extends Controller
              * @var $poll Poll
              */
             $poll->setExpirationDate($nowDateTime);
-//            $poll->setAnswerOptions('1');
-//            $poll->setPossibleAnswerCount('1');
-//            $poll->setAllowMultipleAnswers(false);
-//            dump($poll);
-//            exit;
-            if (!$poll->getAllowMultipleAnswers()) {
-                $poll->setAllowedAnswerCount("0");
+            if (!$poll->getAllowedAnswerCount()) {
+                $poll->setAllowedAnswerCount(2);
             }
 
             // ... perform some action, such as saving the task to the database
@@ -187,28 +203,81 @@ class PollController extends Controller
 
         $timeLeftToVote = $this->getTimeLeft($poll);
 
+        $allowedAnswerCount = 1;
+
+        if ($poll->getAllowMultipleAnswers()) {
+            $allowedAnswerCount = $poll->getAllowedAnswerCount();
+        }
+
         $defaultData = array('message' => 'Type your message here');
         $form = $this->createFormBuilder($defaultData)
             ->add('name', ChoiceType::class, array(
                 'choices' => array_flip($poll->getAnswer()),
                 'expanded' => true,
                 'label' => false,
-//                'multiple' => true,
+                'multiple' => $poll->getAllowMultipleAnswers(),
                 'choice_attr' => function($val, $key, $index) {
-                    // adds a class like attending_yes, attending_no, etc
-                    return ['class' => 'is-checkradio is-large'];
+                    return [
+                        'class' => 'is-checkradio is-large'
+                    ];
                 },
                 'attr' => array(
                     'class' => 'is-checkradio'
                 )
             ))
-            ->add('send', SubmitType::class, array(
+            ->add("acceptedTos", CheckboxType::class, array(
+                'attr' => array(
+                    'class' => 'is-checkradio is-info',
+                ),
+                'required' => true,
+                'label' => 'I accept the'
+            ))
+            ->add('recaptcha', EWZRecaptchaType::class, array(
+                'attr'        => array(
+                    'options' => array(
+                        'theme' => 'light',
+                        'type'  => 'image',
+                        'size'  => 'normal'
+                    )
+                ),
+                'label' => false,
+                'mapped'      => false,
+                'constraints' => array(
+                    new RecaptchaTrue()
+                )
+            ))
+            ->add('save', SubmitType::class, array(
                 'attr' => array(
                     'class' => 'button is-primary'
                 ),
                 'label' => 'Submit Vote'
             ))
             ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $vote = $form->getData();
+            $i = 1;
+            foreach ($vote['name'] as $singleVote) {
+                if ($i > $allowedAnswerCount) {
+                    break;
+                }
+
+                $tmp = new Vote();
+                $tmp->setPoll($pollId);
+                $tmp->setAnswerArrayId($singleVote);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($tmp);
+                $entityManager->flush();
+
+                $i++;
+            }
+            return $this->redirectToRoute('viewPollResult', [
+                'pollId' => $pollId,
+            ]);
+        }
 
         return $this->render('poll/vote.html.twig', array(
             'poll' => $poll,
