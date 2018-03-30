@@ -157,8 +157,6 @@ class PollController extends Controller
             $minutesToAdd = $expirationTimesArray[$poll->getExpirationDate()];
             $nowDateTime->modify("+{$minutesToAdd} minutes");
 
-
-
             $poll->setExpirationDate($nowDateTime);
             if (!$poll->getAllowedAnswerCount()) {
                 $poll->setAllowedAnswerCount(2);
@@ -264,21 +262,33 @@ class PollController extends Controller
             $vote = $form->getData();
             $i = 1;
 
-            foreach ($vote['answers'] as $singleVote) {
-                if ($i > $allowedAnswerCount) {
-                    break;
-                }
+            if ($poll->getAllowMultipleAnswers()) {
+                foreach ($vote['answers'] as $singleVote) {
+                    if ($i > $allowedAnswerCount) {
+                        break;
+                    }
 
+                    $tmp = new Vote();
+                    $tmp->setPoll($pollId);
+                    $tmp->setAnswerArrayId($singleVote);
+                    $tmp->setAcceptedTos($vote['acceptedTos']);
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($tmp);
+                    $entityManager->flush();
+
+                    $i++;
+                }
+            } else {
                 $tmp = new Vote();
                 $tmp->setPoll($pollId);
-                $tmp->setAnswerArrayId($singleVote);
+                $tmp->setAnswerArrayId($vote['answers']);
                 $tmp->setAcceptedTos($vote['acceptedTos']);
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($tmp);
                 $entityManager->flush();
-
-                $i++;
             }
+
+
             return $this->redirectToRoute('viewPollResult', [
                 'pollId' => $pollId,
             ]);
@@ -312,7 +322,6 @@ class PollController extends Controller
             );
         }
 
-        $votes = array_filter($votes);
 
         if ($request->isXMLHttpRequest()) {
             return new JsonResponse(array('votes' => $votes));

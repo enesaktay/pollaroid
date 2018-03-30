@@ -8,9 +8,9 @@ $(function() {
             var list = $($(this).attr('data-list'));
             // Try to find the counter of the list
             // var counter = list.attr('data-widget-counter');
-            var counter = list.children().length;
+            var counter = list.data('widget-counter') | (list.children().length-2);
             // If the counter does not exist, use the length of the list
-            // if (!counter) { counter = list.children().length; }
+            if (!counter) { counter = (list.children().length-2); }
 
             var number = $( "input[id^='form_answer_']" ).length;
 
@@ -67,14 +67,19 @@ $(function() {
                 var deleteId = $(x).attr('data-deleteid');
                 $(deleteId).parent().remove();
                 var formAnswers = $( "input[id^='form_answer_']" );
+                var prototypeName = $('#question-step').attr('data-prototype-name');
+                // var prototypeId = $('#question-step').attr('data-prototype-id');
                 formAnswers.each(function(i) {
                     $(this).attr('placeholder', 'Answer ' + (parseInt(i)+1));
+                    $(this).attr('name', (prototypeName+'['+parseInt(i) + ']'));
+                    // $(this).attr('id', '[' + (prototypeId+'_'+parseInt(i)));
                 });
                 if (!formAnswers.length) {
                     $('.add-another-collection-widget').click();
                 }
             });
         }
+
 
         function init() {
             if ($( "input[id^='form_answer_']" ).length < 1) {
