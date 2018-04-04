@@ -1,6 +1,8 @@
 # Pollaroid
 Pollaroid is a Symfony and Bulma based website to quickly create polls
 
+![demo](screenshots/demo.gif)
+
 ## Requirements
 [MySQL](https://dev.mysql.com/downloads/installer/)
 
